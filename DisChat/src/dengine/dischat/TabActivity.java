@@ -83,7 +83,7 @@ public class TabActivity extends FragmentActivity {
 
         @Override
         public int getCount() {
-            // Show 3 total pages.
+            // Show 1 total pages.
             return 3;
         }
 
@@ -97,6 +97,7 @@ public class TabActivity extends FragmentActivity {
                     return getString(R.string.title_section2).toUpperCase(l);
                 case 2:
                     return getString(R.string.title_section3).toUpperCase(l);
+                
             }
             return null;
         }

@@ -10,5 +10,6 @@
     <string name="hello_world">Hello world!</string>
     <string name="title_activity_public_chat">PublicChatActivity</string>
     <string name="title_activity_public_room">PublicRoomActivity</string>
+    <string name="title_activity_public_room_fragment">PublicRoomFragment</string>
 
 </resources>
