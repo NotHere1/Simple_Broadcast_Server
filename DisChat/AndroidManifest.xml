@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="dengine.dischat"
+    android:versionCode="1"
+    android:versionName="1.0" >
+
+    <uses-sdk
+        android:minSdkVersion="11"
+        android:targetSdkVersion="18" />
+
+    <application
+        android:allowBackup="true"
+        android:icon="@drawable/ic_launcher"
+        android:label="@string/app_name"
+        android:theme="@style/AppTheme" >
+        <activity
+            android:name="dengine.dischat.TabActivity"
+            android:label="@string/app_name" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="dengine.dischat.PublicActivity"
+            android:label="@string/title_activity_public" >
+        </activity>
+        <activity
+            android:name="dengine.dischat.PublicChatActivity"
+            android:label="@string/title_activity_public_chat" >
+        </activity>
+        <activity
+            android:name="dengine.dischat.PublicRoomActivity"
+            android:label="@string/title_activity_public_room" >
+        </activity>
+    </application>
+
+</manifest>
