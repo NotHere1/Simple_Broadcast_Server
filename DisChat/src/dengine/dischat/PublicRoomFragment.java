@@ -20,8 +20,8 @@ public class PublicRoomFragment extends Fragment {
 	@Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
             Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.fragment_tab_dummy, container, false);
-        TextView dummyTextView = (TextView) rootView.findViewById(R.id.section_label);
+        View rootView = inflater.inflate(R.layout.activity_public_room_fragment, container, false);
+        TextView dummyTextView = (TextView) rootView.findViewById(R.id.testing);
         dummyTextView.setText(Integer.toString(getArguments().getInt(ARG_SECTION_NUMBER)));
         return rootView;
     }

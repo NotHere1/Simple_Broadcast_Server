@@ -20,6 +20,7 @@
             android:name="dengine.dischat.PublicRoomFragment"
             android:label="@string/title_activity_public_room_fragment" >
         </activity>
+        
         <activity
             android:name="dengine.dischat.LoginActivity"
             android:label="@string/title_activity_login" >
@@ -38,6 +39,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        
     </application>
     
 </manifest>
