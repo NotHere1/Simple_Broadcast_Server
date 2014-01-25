@@ -27,7 +27,7 @@ public class Server {
 		
 		Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/dischatdatabase", "root", "2289");
 		
-		java.sql.PreparedStatement statement = con.prepareStatement("select * from name");
+		java.sql.PreparedStatement statement = con.prepareStatement("select * from user");
 		
 		ResultSet result = statement.executeQuery();
 		
