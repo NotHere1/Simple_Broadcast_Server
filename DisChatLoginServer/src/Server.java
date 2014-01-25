@@ -85,26 +85,19 @@ public class Server {
 				String usr_email = input.readUTF();
 				String usr_pwd = input.readUTF();
 				
-				// check does usr email exists
-				checkEmail = con.prepareStatement("select email from user where email = ?");
+				// check does usr credential is correct
+				checkEmail = con.prepareStatement("select password from user where email = ?");
 				checkEmail.setString(1, usr_email);
 				ResultSet result = checkEmail.executeQuery();
-				
-				if (!result.isBeforeFirst() ) {    
-					 login_status = false; // usr_email does not exist
+
+				// if result.next() return false then that signifies email does not exist 
+				// if true then email exist
+				if (result.next()) {    
+					 if (result.getString(1).equals(usr_pwd))
+						 login_status = true;
 				}
 				
-				// Check whether is usr_pwd is correct
-				checkPwd = con.prepareStatement("select password from user where email = ?");
-				checkPwd.setString(1, usr_email);
-				result = checkPwd.executeQuery();
-				
-				if (result.next()){
-					if (!result.getString(1).equals(usr_pwd))
-						login_status = false; // usr_pwd does not match db's record
-				}
-				
-				
+				out.writeBoolean(login_status);
 				
 			}
 			catch (IOException | SQLException e){
