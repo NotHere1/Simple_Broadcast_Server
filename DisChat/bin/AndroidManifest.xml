@@ -13,23 +13,26 @@
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
-        <activity
-            android:name="dengine.dischat.TabActivity"
-            android:label="@string/app_name" >
-            
-        </activity>
+        
         <activity
             android:name="dengine.dischat.PublicRoomFragment"
             android:label="@string/title_activity_public_room_fragment" >
         </activity>
         <activity
-            android:name="dengine.dischat.DisLoginActivity"
-            android:label="@string/title_activity_dis_login"
-            android:windowSoftInputMode="adjustResize|stateVisible" >
+            android:name="dengine.dischat.LoginActivity"
+            android:label="@string/title_activity_login" >
             
             <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
+				<action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        
+        <activity
+            android:name="dengine.dischat.TabActivity"
+            android:label="@string/app_name" >
+            <intent-filter>
+				<action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
