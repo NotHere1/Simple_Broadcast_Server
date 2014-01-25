@@ -97,6 +97,7 @@ public class Server {
 						 login_status = true;
 				}
 				
+				System.out.println("login_status is" + login_status);
 				out.writeBoolean(login_status);
 				
 			}
