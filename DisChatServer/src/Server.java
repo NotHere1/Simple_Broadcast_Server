@@ -21,13 +21,11 @@ public class Server {
 	 */
 	public static void main(String[] args) throws Exception {
 		
-//		new Server();
-		
 		Class.forName("com.mysql.jdbc.Driver");
 		
 		Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/dischatdatabase", "root", "2289");
 		
-		java.sql.PreparedStatement statement = con.prepareStatement("select * from user");
+		java.sql.PreparedStatement statement = con.prepareStatement("select * from dischatdatabase.user");
 		
 		ResultSet result = statement.executeQuery();
 		
@@ -36,7 +34,14 @@ public class Server {
 			System.out.println(result.getString(2));
 		}
 		
+		
 	}
+}
+//		new Server();
+		
+		
+		
+	//}
 	
 //	public Server(){
 //		
@@ -70,4 +75,4 @@ public class Server {
 //		
 //	}
 
-}
+//}
