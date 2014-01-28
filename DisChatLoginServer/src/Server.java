@@ -163,6 +163,8 @@ public class Server {
 					sql_register_user.setString(2, new_usr_pwd);
 					sql_register_user.setString(3, new_usr_gender);
 					sql_register_user.setString(4, new_usr_email);
+					
+					sql_register_user.executeQuery();
 				}
 				
 				out.writeBoolean(duplicate_email);
