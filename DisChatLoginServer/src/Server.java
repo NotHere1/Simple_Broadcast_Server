@@ -9,11 +9,15 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import org.json.JSONException;
+import org.json.JSONObject;
 
 public class Server {
 
 	private ServerSocket serverListener = null;
 	private Socket socket;
+	private final String LOGIN_STATUS = "login_status";
+	private final String REGISTER_STATUS = "register_status";
 	
 	/**
 	 * @param args - null
@@ -33,7 +37,6 @@ public class Server {
 
 			// incoming connection, pass to thread
 			while(true){
-				
 				
 				socket = serverListener.accept();
 				Runnable login = new HandleTask(socket);
@@ -83,15 +86,15 @@ public class Server {
 		/**
 		 * Performs login verification function
 		 */
-		private void login_check() {
+		private void login_check(JSONObject client_input) {
 			
-			boolean login_status = false;
+			int login_status = 0;
 			PreparedStatement sql_check_user;
 			
 			try {
-							
-				String usr_email = in.readUTF();
-				String usr_pwd = in.readUTF();
+				
+				String usr_email = client_input.getString("email");
+				String usr_pwd = client_input.getString("password");
 				
 				// check does usr credential is correct	
 				sql_check_user = con.prepareStatement("Select password from user where email = ?");
@@ -102,34 +105,36 @@ public class Server {
 				// if true then email exist
 				if (result.next()) {    
 					 if (result.getString(1).equals(usr_pwd))
-						 login_status = true;
+						 login_status = 1;
 				}
-				System.out.println(login_status);
-				out.writeBoolean(login_status);
-				
+				JSONWriter json_out = new JSONWriter(LOGIN_STATUS, login_status);
+				out.writeUTF(json_out.toString());
+	
 			}
 			catch (IOException | SQLException e){
 				e.printStackTrace();
+			} catch (JSONException e) {
+				e.printStackTrace();
+				System.err.println("key not found for JSON object in login_check");
 			}
-			
-		
+					
 		} // end login_check function
 		
 		/**
 		 * Register new user into the db
 		 */
-		private void register_new_user() {
+		private void register_new_user(JSONObject client_input) {
 			
 			PreparedStatement sql_register_user;
 			PreparedStatement sql_check_email;
-			boolean duplicate_email = false;
+			int duplicate_email = 0;
 			
 			try {
 				
-				String new_usr_name = in.readUTF();
-				String new_usr_email = in.readUTF();
-				String new_usr_pwd = in.readUTF();
-				int new_usr_gender_int = in.readInt();
+				String new_usr_name = client_input.getString("username");
+				String new_usr_email = client_input.getString("email");
+				String new_usr_pwd = client_input.getString("password");
+				int new_usr_gender_int = client_input.getInt("gender");
 				
 				String new_usr_gender;
 				
@@ -152,22 +157,22 @@ public class Server {
 				
 				// result.next returns true iff duplicate email exists, false otherwise
 				// !result.next shows that no duplicate email
-				if (!result.next()) {  
-					duplicate_email = true;
+				if (result.next()) {  
+					duplicate_email = 1;
 				}
 					
 				// Update the db with the new user's info only if there is no duplicate email
-				if (!duplicate_email) {
-					sql_register_user = con.prepareStatement("insert into dischatdatabase.user (username, password, sex, email) values (? , ? , ? , ?);");
+				if (duplicate_email == 0) {
+					sql_register_user = con.prepareStatement("insert into dischatdatabase.user (username, password, sex, email) values (? , ? , ? , ?)");
 					sql_register_user.setString(1, new_usr_name);
 					sql_register_user.setString(2, new_usr_pwd);
 					sql_register_user.setString(3, new_usr_gender);
 					sql_register_user.setString(4, new_usr_email);
 					
-					sql_register_user.executeQuery();
+					sql_register_user.executeUpdate();
 				}
-				
-				out.writeBoolean(duplicate_email);
+				JSONWriter json_out = new JSONWriter(REGISTER_STATUS, duplicate_email);
+				out.writeUTF(json_out.toString());
 				
 			} catch (IOException e ) {
 				e.printStackTrace();
@@ -175,26 +180,24 @@ public class Server {
 			} catch (SQLException e) {
 				e.printStackTrace();
 				System.err.println("sql insert error in register new_user");
+			} catch (JSONException e) {
+				e.printStackTrace();
+				System.err.println("Key not found in register_check");
 			}
-
 		}
 		
 		@Override
 		public void run() {
 			
 			try {
+				// Retrieve client json inputs
+				JSONObject client_input = new JSONObject (in.readUTF());
+				int login_or_register = client_input.getInt("indicate"); // 0 - login, 1 - register
 				
-				int login_or_register = in.readInt(); // 0 - login, 1 - register
-				
-				if (login_or_register == 0) { 
-					login_check();
-					System.out.println("Login!");
-				}
-				else {
-					register_new_user();
-					System.out.println("Register");
-				}
-				
+				if (login_or_register == 0) 
+					login_check(client_input);
+				else 
+					register_new_user(client_input);
 			} 
 			catch (Exception e) {
 				e.printStackTrace();
