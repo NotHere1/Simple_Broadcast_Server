@@ -108,7 +108,9 @@ public class Server {
 						 login_status = 1;
 				}
 				JSONWriter json_out = new JSONWriter(LOGIN_STATUS, login_status);
-				out.writeUTF(json_out.toString());
+				System.out.println("login status is " + login_status);
+				JSONObject json_obj = new JSONObject(json_out.get_map());
+				out.writeUTF(json_obj.toString());
 	
 			}
 			catch (IOException | SQLException e){
@@ -172,7 +174,9 @@ public class Server {
 					sql_register_user.executeUpdate();
 				}
 				JSONWriter json_out = new JSONWriter(REGISTER_STATUS, duplicate_email);
-				out.writeUTF(json_out.toString());
+				System.out.println("register status is " + duplicate_email);
+				JSONObject json_obj = new JSONObject(json_out.get_map());
+				out.writeUTF(json_obj.toString());
 				
 			} catch (IOException e ) {
 				e.printStackTrace();
