@@ -64,7 +64,7 @@ public class Server {
 			// Establish connection to the db
 			try{
 				Class.forName("com.mysql.jdbc.Driver");
-				con = DriverManager.getConnection("jdbc:mysql://localhost:3306/dischatdatabase", "root", "2289");
+				con = DriverManager.getConnection("jdbc:mysql://localhost:3306/dischatdatabase", "***", "***");
 				
 				in = new DataInputStream(s.getInputStream());
 				out = new DataOutputStream(s.getOutputStream());
